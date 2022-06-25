@@ -93,6 +93,7 @@ type Product struct {
 // A method that returns a product.
 func (client *Client) GetProduct(code string) (*Product, error) {
 	url := fmt.Sprintf("https://id.oriflame.com/system/ajax/pdp/concept?code=%s", code)
+
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
