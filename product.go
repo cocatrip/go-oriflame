@@ -1,11 +1,13 @@
 package oriflame
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
+
+	strip "github.com/grokify/html-strip-tags-go"
 )
 
 // This struct represents a product
@@ -110,7 +112,9 @@ func (client *Client) GetProduct(code string) (*Product, error) {
 		return nil, err
 	}
 
-	dec := json.NewDecoder(bytes.NewReader(body))
+	bodyString := strip.StripTags(string(body))
+
+	dec := json.NewDecoder(strings.NewReader(bodyString))
 	var product *Product
 	if err := dec.Decode(&product); err != nil {
 		return nil, err
